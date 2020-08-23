@@ -4,6 +4,9 @@ version = "0.1.0"
 authors = ["barigorokarl <github@der-schreiber.net>"]
 edition = "2018"
 
+[lib]
+name = "newsinboundr_db"
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
