@@ -1,4 +1,4 @@
-use crate::db::schema::NewsSourceType;
+use super::schema::NewsSourceType;
 use super::schema::news;
 
 #[derive(Queryable, Debug, Clone)]
