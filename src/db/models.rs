@@ -1,8 +1,5 @@
-use std::vec::Vec;
 use crate::db::schema::NewsSourceType;
-use rss::{Channel, Item};
 use super::schema::news;
-
 
 #[derive(Queryable, Debug, Clone)]
 pub struct SourceAtom  {

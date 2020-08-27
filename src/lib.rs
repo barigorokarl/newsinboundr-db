@@ -1,9 +1,15 @@
+#[macro_use]
+extern crate diesel;
+
+mod db;
+
 use diesel::{PgConnection, RunQueryDsl};
 use diesel::result::Error;
-use crate::db::models::NewNews;
-use crate::db::schema::news;
-use crate::db::schema::NewsSourceType;
 use diesel::r2d2::{Pool, ConnectionManager, PooledConnection};
+use db::models::{ NewNews, SourceAtom, SourceRss};
+use db::schema::{news, NewsSourceType};
+use db::schema::source_atom::dsl::*;
+use db::schema::source_rss::dsl::*;
 
 pub fn create_news<'a>(conn: &PooledConnection<ConnectionManager<PgConnection>>,
                        guid: &'a str,
@@ -13,7 +19,7 @@ pub fn create_news<'a>(conn: &PooledConnection<ConnectionManager<PgConnection>>,
                        title: &'a str,
                        content: &'a str,
                        link: &'a str,
-                       color: &'a str) -> Result<usize, Error> {
+                       i_color: &'a str) -> Result<usize, Error> {
 
     let new_news = NewNews{
         guid,
@@ -23,7 +29,7 @@ pub fn create_news<'a>(conn: &PooledConnection<ConnectionManager<PgConnection>>,
         title,
         content,
         link,
-        color
+        color: i_color
     };
 
     diesel::insert_into(news::table)
@@ -32,10 +38,7 @@ pub fn create_news<'a>(conn: &PooledConnection<ConnectionManager<PgConnection>>,
 }
 
 
-pub fn establish_connection() -> Pool<ConnectionManager<PgConnection>> {
-    dotenv().ok();
-
-    let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+pub fn establish_connection(database_url: String) -> Pool<ConnectionManager<PgConnection>> {
     let manager =
         ConnectionManager::<PgConnection>::new(database_url);
     Pool::builder().build(manager).expect("Error building pool")
@@ -43,7 +46,6 @@ pub fn establish_connection() -> Pool<ConnectionManager<PgConnection>> {
 
 
 pub fn get_atom_sources(connection: PooledConnection<ConnectionManager<PgConnection>>) -> Option<Vec<SourceAtom>> {
-    return None;
     let results = source_atom
         .load(&connection)
         .expect("Error loading posts");

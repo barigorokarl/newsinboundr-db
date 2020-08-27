@@ -12,4 +12,6 @@ name = "newsinboundr_db"
 [dependencies]
 chrono = { version = "0.4.13", features = ["serde"] }
 diesel = { version = "1.4.5", features = ["postgres", "chrono"] }
-diesel-derive-enum = { versions = "1.1.0", features = ["postgres"] }
+diesel-derive-enum = { version = "1.1.0", features = ["postgres"] }
+tokio-diesel = "0.3.0"
+rss = { version = "1.9.0", features = ["from_url"] }
