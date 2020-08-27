@@ -1,7 +1,7 @@
 #[macro_use]
 extern crate diesel;
 
-mod db;
+pub mod db;
 
 use diesel::{PgConnection, RunQueryDsl};
 use diesel::result::Error;
